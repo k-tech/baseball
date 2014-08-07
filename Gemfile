@@ -39,6 +39,8 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
+  gem 'annotate', "~> 2.6.5"
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'byebug'
 end
 
