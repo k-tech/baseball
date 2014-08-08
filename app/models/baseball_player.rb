@@ -11,5 +11,10 @@
 #  updated_at :datetime
 #
 
-class Player < ActiveRecord::Base
+class BaseballPlayer < ActiveRecord::Base
+  has_many :battings
+  def self.get_most_improved
+    rs = self.where('most_improved IS NOT NULL').order('most_improved desc').limit(200)
+    rs.map{|player| player.name_first + " " + player.name_last}
+  end
 end

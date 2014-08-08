@@ -22,4 +22,20 @@
 #
 
 class Batting < ActiveRecord::Base
+  belongs_to :baseball_player
+  #def self.most_improved
+    #rs = Batting.where('hits > 10 and at_bats > 10 and year_id is not null').limit(100)
+    #player = {}
+    #rs.each do |row|
+      #player[row.player_id] = {} unless player[row.player_id].present?
+      #player[row.player_id].merge!( row.year_id => row.hits / row.at_bats.to_f)
+    #end
+
+    #player.each do |key, value|
+      #player[key].merge!(rate: value['2010'] - value['2009']) if value['2010'].present? and value['2009'].present?
+      #Player
+    #end
+    #player.sort_by{|k, v| v[:rate] }
+    
+  #end
 end
