@@ -11,17 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808165814) do
-
-  create_table "baseball_players", force: true do |t|
-    t.string   "player_id"
-    t.string   "birth_year"
-    t.string   "name_first"
-    t.string   "name_last"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float    "most_improved", limit: 24
-  end
+ActiveRecord::Schema.define(version: 20140808191736) do
 
   create_table "battings", force: true do |t|
     t.string   "player_id"
@@ -40,8 +30,17 @@ ActiveRecord::Schema.define(version: 20140808165814) do
     t.integer  "caught_stealing"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "baseball_player_id"
-    t.float    "bat_ave",            limit: 24
+    t.float    "bat_ave",         limit: 24
+  end
+
+  create_table "players", force: true do |t|
+    t.string   "player_id"
+    t.string   "birth_year"
+    t.string   "name_first"
+    t.string   "name_last"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "most_improved", limit: 24
   end
 
 end
