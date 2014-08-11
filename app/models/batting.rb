@@ -23,6 +23,7 @@
 
 class Batting < ActiveRecord::Base
   belongs_to :player, primary_key: :player_id, foreign_key: :player_id
+
   #def self.most_improved
     #rs = Batting.where('hits > 10 and at_bats > 10 and year_id is not null').limit(100)
     #player = {}

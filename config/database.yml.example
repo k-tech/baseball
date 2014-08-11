@@ -1,0 +1,22 @@
+default: &default
+  adapter: mysql2
+  pool: 25
+  timeout: 5000
+  encoding: utf8
+  username: root
+  password:
+
+development:
+  datebase: baseball
+  <<: *default
+
+production:
+  database: baseball_production
+  pool: 100
+  <<: *default
+
+test: &test
+  <<: *default
+  database: baseball_test
+  pool: 5
+  timeout: 5000
