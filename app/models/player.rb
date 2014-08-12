@@ -17,4 +17,9 @@ class Player < ActiveRecord::Base
     rs = self.where('most_improved IS NOT NULL').order('most_improved desc').limit(200)
     rs.map{|player| player.name_first + " " + player.name_last}
   end
+
+
+  def full_name
+    name_first + ' ' + name_last
+  end
 end
