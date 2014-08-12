@@ -7,7 +7,7 @@ default: &default
   password:
 
 development:
-  datebase: baseball
+  database: baseball
   <<: *default
 
 production:
