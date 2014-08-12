@@ -24,22 +24,16 @@
 class Batting < ActiveRecord::Base
   belongs_to :player, primary_key: :player_id, foreign_key: :player_id
 
+  after_create :generate_bat_ave
   default_scope -> {where("hits is not null and runs is not null and doubles is not null and triples is not null and home_runs is not null and at_bats is not null")}
-  scope :slugging_condition, -> {where("hits is not null and runs is not null and doubles is not null and triples is not null and home_runs is not null and at_bats is not null")}
   scope :batting_ave_condition, -> {where("at_bats >= 200")}
   scope :year_league_winners, ->(year, league, spec) { self.where(year_id: year, league: league).where('at_bats >= 400').where(spec => self.best_score(year, league, spec)) }
 
   delegate :full_name, to: :player, prefix: true
 
   def self.get_slugging 
-    rs = self.slugging_condition.where(team_id: 'OAK', year_id: '2007')
+    rs = self.where(team_id: 'OAK', year_id: '2007')
     rs.map{|b| slugging = ((b.hits.to_f - b.doubles.to_f - b.triples.to_f - b.home_runs.to_f) + (2 * b.doubles.to_f) + (3 * b.triples.to_f) + (4 * b.home_runs.to_f)) / b.at_bats.to_f if b.at_bats != 0; slugging}.compact
-  end
-
-  def self.get_most_improved
-    #@first = self.batting_ave_condition.group(:player_id).where(year_id: '2009').select('id', 'player_id', 'hits / at_bats as bat_ave')
-    #@second = self.batting_ave_condition.group(:player_id).where(year_id: '2010').select('id', 'player_id', 'hits / at_bats as bat_ave')
-    byebug
   end
 
   def self.best_score(year, league, spec)
@@ -52,9 +46,19 @@ class Batting < ActiveRecord::Base
     end
     winners.empty? ? 'No Winner' : winners.map(&:player_full_name).join(', ')
   end
+  
+  def self.most_improved2
+    result = {}
+    lefts = Batting.where(year_id: '2010').where('bat_ave is not null and at_bats >= 200')
+    lefts.each do |left|
+      right = Batting.where(year_id: '2009', player_id: left.player_id).where('bat_ave is not null and at_bats >= 200').first
+      result[left.player_id] = left.bat_ave - right.bat_ave if right
+    end
+    result = result.sort_by{|k, v| v}
+  end
 
   def self.most_improved
-    rs = Batting.all
+    rs = Batting.where("at_bats >= 200").all
     player = {}
     rs.each do |row|
       unless (row.hits == 0) or (row.at_bats == 0)
@@ -67,6 +71,14 @@ class Batting < ActiveRecord::Base
       player[key].merge!(rate: value['2010'] - value['2009']) if value['2010'].present? and value['2009'].present?
     end
     player = player.delete_if{|key, value| value['2010'].blank? or value['2009'].blank?}
-    player.sort_by{|k, v| v[:rate]}
+    player = player.sort_by{|k, v| v[:rate]}
+    player.map do |key, value| 
+      Player.find_by_player_id(key).full_name
+    end
+  end
+
+  def generate_bat_ave
+    self.bat_ave = self.hits.to_f / self.at_bats
+    self.save
   end
 end
