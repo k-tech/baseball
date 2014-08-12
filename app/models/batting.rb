@@ -40,7 +40,6 @@ class Batting < ActiveRecord::Base
     #@first = self.batting_ave_condition.group(:player_id).where(year_id: '2009').select('id', 'player_id', 'hits / at_bats as bat_ave')
     #@second = self.batting_ave_condition.group(:player_id).where(year_id: '2010').select('id', 'player_id', 'hits / at_bats as bat_ave')
     byebug
-    
   end
 
   def self.best_score(year, league, spec)
