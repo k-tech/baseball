@@ -1,12 +1,3 @@
-desc "associate player_id between players and battings"
-task associate_player_and_batting: :environment do
-  Batting.find_each do |batting|
-    player = Player.find_by(player_id: batting.player_id)
-    batting.update(player: player)
-    print '.' 
-  end
-end
-
 desc "calculate batting average"
 task batting_average: :environment do
   Batting.find_each do |bat|

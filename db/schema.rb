@@ -11,23 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808191736) do
+ActiveRecord::Schema.define(version: 20140813143659) do
 
   create_table "battings", force: true do |t|
     t.string   "player_id"
     t.string   "year_id"
     t.string   "league"
     t.string   "team_id"
-    t.integer  "games_played"
-    t.integer  "at_bats"
-    t.integer  "runs"
-    t.integer  "hits"
-    t.integer  "doubles"
-    t.integer  "triples"
-    t.integer  "home_runs"
-    t.integer  "runs_batted_in"
-    t.integer  "stolen_bases"
-    t.integer  "caught_stealing"
+    t.integer  "games_played",               default: 0, null: false
+    t.integer  "at_bats",                    default: 0, null: false
+    t.integer  "runs",                       default: 0, null: false
+    t.integer  "hits",                       default: 0, null: false
+    t.integer  "doubles",                    default: 0, null: false
+    t.integer  "triples",                    default: 0, null: false
+    t.integer  "home_runs",                  default: 0, null: false
+    t.integer  "runs_batted_in",             default: 0, null: false
+    t.integer  "stolen_bases",               default: 0, null: false
+    t.integer  "caught_stealing",            default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "bat_ave",         limit: 24

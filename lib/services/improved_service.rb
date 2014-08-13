@@ -19,7 +19,6 @@ class ImprovedService
     end
   end
 
-
   def self.most_improved2 from_year=2009, to_year=2010, at_bats=200
     result = {}
     lefts = Batting.where(year_id: to_year).where('bat_ave is not null and at_bats >= ?', at_bats)
