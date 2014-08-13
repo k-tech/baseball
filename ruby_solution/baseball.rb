@@ -56,9 +56,9 @@ end
 class Batting
   attr_accessor :player_id, :year_id, :league, :team_id, :games_played, :at_bats, :runs, :hits, :doubles, :triples, :home_runs, :runs_batted_in, :stolen_bases, :caught_stealing, :bat_ave
   class << self; attr_accessor :list; end
-  
-  def initialize(player_id, year_id, league, team_id, games_played, at_bats, runs, hits, doubles, triples, home_runs, runs_batted_in, stolen_bases, caught_stealing)
-    self.player_id, self.year_id, self.league, self.team_id, self.games_played, self.at_bats, self.runs, self.hits, self.doubles, self.triples, self.home_runs, self.runs_batted_in, self.stolen_bases, self.caught_stealing = player_id, year_id, league, team_id, games_played, at_bats.to_i, runs.to_i, hits.to_i, doubles.to_i, triples.to_i, home_runs.to_i, runs_batted_in.to_i, stolen_bases.to_i, caught_stealing.to_i
+
+  def initialize(params={})
+    params.each{|k, v| self.send("#{k}=", v)}
     self.bat_ave = self.hits / self.at_bats if self.at_bats and self.hits and self.at_bats != 0
   end
 
@@ -67,7 +67,23 @@ class Batting
     Batting.list = []
     battings.drop(1).each do |row|
       data = row.split(',')
-      Batting.list << Batting.new( data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13])
+      Batting.list << Batting.new(
+        {
+          player_id: data[0],
+          year_id: data[1],
+          league: data[2],
+          team_id: data[3],
+          games_played: data[4].to_f,
+          at_bats: data[5].to_i,
+          runs: data[6].to_i,
+          hits: data[7].to_i,
+          doubles: data[8].to_i,
+          triples: data[9].to_i,
+          home_runs: data[10].to_i,
+          runs_batted_in: data[11].to_i,
+          stolen_bases: data[12].to_i,
+          caught_stealing: data[13].to_i
+        })
       print '.'
     end
   end
@@ -95,7 +111,7 @@ class Batting
   end
 
   def self.most_improved
-    rs = Batting.list.select{ |batting| batting.at_bats && batting.at_bats.to_i >= 200}
+    rs = list.select{ |batting| batting.at_bats && batting.at_bats.to_i >= 200}
     player = {}
     rs.each do |row|
       unless (row.hits == 0) or (row.at_bats == 0)
@@ -108,7 +124,7 @@ class Batting
       player[key].merge!(rate: value['2010'] - value['2009']) if value['2010'] and value['2009']
     end
     player = player.delete_if{|key, value| value['2010'].nil? or value['2009'].nil?}
-    player_id = player.sort_by{|k, v| v[:rate]}.last.first
+    player.sort_by{|k, v| v[:rate]}.last.first
   end
 
 end
