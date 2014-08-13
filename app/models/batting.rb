@@ -11,28 +11,6 @@ class Batting < ActiveRecord::Base
 
   delegate :full_name, to: :player, prefix: true
 
-  def self.get_slugging 
-    SluggingPercentageService.get_slugging
-  end
-
-  def self.triple_crown_winner(year, league)
-    TripleCrownWinnerService.triple_crown_winner(year, league)
-  end
-  
-  def self.most_improved2
-    result = {}
-    lefts = Batting.where(year_id: '2010').where('bat_ave is not null and at_bats >= 200')
-    lefts.each do |left|
-      right = Batting.where(year_id: '2009', player_id: left.player_id).where('bat_ave is not null and at_bats >= 200').first
-      result[left.player_id] = left.bat_ave - right.bat_ave if right
-    end
-    result = result.sort_by{|k, v| v}
-  end
-
-  def self.most_improved
-    ImprovedService.most_improved
-  end
-
   private
   def generate_bat_ave
     self.bat_ave = self.hits.to_f / self.at_bats unless self.at_bats.zero?
