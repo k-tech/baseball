@@ -47,13 +47,13 @@ RSpec.describe Baseball do
   end
 
   let(:batting4){ Batting.new(player_id: 'player_id1', year_id: '2007', league: 'NL', at_bats: 300, hits: 199, doubles: 130, triples: 36, home_runs: 200, runs_batted_in: 10)}
-  it 'triple_crown_winner' do
+  it 'triple_crown_winner return correct winner name' do
     expect(Batting).to receive(:triple_crown_winner){[batting4]}
     expect(Player).to receive(:player_id_2_fullname).with('player_id1') { 'Joe Brown'}
     expect(Baseball.new.triple_crown_winner).to eq 'Joe Brown'
   end
 
-  it 'triple_crown_winner' do
+  it 'triple_crown_winner return no winner' do
     expect(Batting).to receive(:triple_crown_winner){[]}
     expect(Baseball.new.triple_crown_winner).to eq 'No Winner'
   end
