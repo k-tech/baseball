@@ -52,6 +52,11 @@ RSpec.describe Baseball do
     expect(Player).to receive(:player_id_2_fullname).with('player_id1') { 'Joe Brown'}
     expect(Baseball.new.triple_crown_winner).to eq 'Joe Brown'
   end
+
+  it 'triple_crown_winner' do
+    expect(Batting).to receive(:triple_crown_winner){[]}
+    expect(Baseball.new.triple_crown_winner).to eq 'No Winner'
+  end
 end
 
 RSpec.describe Player do
