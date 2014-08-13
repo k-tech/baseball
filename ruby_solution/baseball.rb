@@ -1,4 +1,3 @@
-require 'byebug'
 class Baseball
   def initialize
     Player.import_csv
@@ -29,8 +28,8 @@ class Player
   attr_accessor :player_id, :birth_year, :name_first, :name_last
   class << self; attr_accessor :list; end
 
-  def initialize(player_id, birth_year, name_first, name_last)
-    self.player_id, self.birth_year, self.name_first, self.name_last = player_id, birth_year, name_first, name_last
+  def initialize(params={})
+    params.each {|k, v| self.send("#{k}=", v)}
   end
 
   def self.player_id_2_fullname(player_id)
@@ -46,7 +45,7 @@ class Player
     Player.list = []
     players.drop(1).each do |row|
       data = row.split(',')
-      Player.list << Player.new( data[0], data[1], data[2], data[3])
+      Player.list << Player.new(player_id: data[0], birth_year: data[1], name_first: data[2], name_last: data[3])
       print '.'
     end
   end
@@ -124,7 +123,8 @@ class Batting
       player[key].merge!(rate: value['2010'] - value['2009']) if value['2010'] and value['2009']
     end
     player = player.delete_if{|key, value| value['2010'].nil? or value['2009'].nil?}
-    player.sort_by{|k, v| v[:rate]}.last.first
+    rs = player.sort_by{|k, v| v[:rate]}.last
+    rs.nil?? '' : rs.first
   end
 
 end
