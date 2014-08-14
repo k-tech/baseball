@@ -1,8 +1,14 @@
 require 'byebug'
 class Baseball
-  def initialize
-    Player.import_csv
-    Batting.import_csv
+  def initialize player_file, batting_file
+    Player.import_csv player_file
+    Batting.import_csv batting_file
+  end
+
+  def run
+    p most_improved
+    p get_slugging
+    p triple_crown_winner
   end
 
   def most_improved
@@ -10,13 +16,11 @@ class Baseball
     Player.list.select{|player| player.player_id == player_id}.first.fullname
   end
 
-
   def get_slugging
     rs = {}
     Batting.get_slugging.each{|k, v| rs.merge!({Player.player_id_2_fullname(k) => v})}
     rs
   end
-
 
   def triple_crown_winner(year='2012', league='NL')
     winners = Batting.triple_crown_winner(year, league)
@@ -63,6 +67,7 @@ class Batting
   end
 
   def self.import_csv( file = './files/Batting-07-12.csv')
+    p file
     battings = File.readlines(file)[0].gsub("\n", '').split("\r")
     Batting.list = []
     battings.drop(1).each do |row|
@@ -133,4 +138,13 @@ class Batting
     rs.each{|b| slugging = ((b.hits.to_f - b.doubles.to_f - b.triples.to_f - b.home_runs.to_f) + (2 * b.doubles.to_f) + (3 * b.triples.to_f) + (4 * b.home_runs.to_f)) / b.at_bats.to_f if b.at_bats != 0; output.merge!({b.player_id => slugging})}
     output.delete_if{|k, v| v.nil?}
   end
+
 end
+
+baseball = if ARGV.size >= 2
+  Baseball.new(ARGV[0], ARGV[1])
+else
+  Baseball.new
+end
+
+baseball.run

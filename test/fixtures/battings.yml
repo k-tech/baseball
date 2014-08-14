@@ -1,0 +1,135 @@
+batting_1:
+  player_id: player1 
+  year_id: 2009
+  league: NL
+  team_id: HOU
+  games_played: 34
+  at_bats: 255
+  runs: 10
+  hits: 10
+  doubles: 5
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+  bat_ave: 0.039
+
+batting_2:
+  player_id: player1 
+  year_id: 2010
+  league: NL
+  team_id: HOU
+  games_played: 35
+  at_bats: 255
+  runs: 30
+  hits: 30
+  doubles: 3
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 7
+  caught_stealing: 1
+  bat_ave: 0.12
+
+batting_3:
+  player_id: player2 
+  year_id: 2009
+  league: NL
+  team_id: HOU
+  games_played: 34
+  at_bats: 255
+  runs: 100
+  hits: 100
+  doubles: 5
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+  bat_ave: 0.39
+
+batting_4:
+  player_id: player2 
+  year_id: 2010
+  league: NL
+  team_id: HOU
+  games_played: 35
+  at_bats: 255
+  runs: 101
+  hits: 101
+  doubles: 3
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 7
+  caught_stealing: 1
+  bat_ave: 0.396
+
+batting_5:
+  player_id: player1 
+  year_id: 2007
+  league: NL
+  team_id: OAK
+  games_played: 34
+  at_bats: 255
+  runs: 10
+  hits: 10
+  doubles: 5
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+
+batting_6:
+  player_id: player1 
+  year_id: 2011
+  league: NL
+  team_id: OAK
+  games_played: 34
+  at_bats: 440
+  runs: 10
+  hits: 10
+  doubles: 5
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+  bat_ave: 0.23
+
+batting_7:
+  player_id: player1 
+  year_id: 2012
+  league: NL
+  team_id: OAK
+  games_played: 34
+  at_bats: 420
+  runs: 10
+  hits: 10
+  doubles: 5
+  triples: 0
+  home_runs: 2
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+  bat_ave: 0.23
+
+batting_8:
+  player_id: player2 
+  year_id: 2012
+  league: NL
+  team_id: OAK
+  games_played: 34
+  at_bats: 420
+  runs: 10
+  hits: 9
+  doubles: 5
+  triples: 0
+  home_runs: 3
+  runs_batted_in: 5
+  stolen_bases: 5
+  caught_stealing: 2
+  bat_ave: 0.22
+
