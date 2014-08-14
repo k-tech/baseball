@@ -32,26 +32,29 @@ end
 class Player
 
   attr_accessor :player_id, :birth_year, :name_first, :name_last
-  class << self; attr_accessor :list; end
 
   def initialize(params={})
     params.each {|k, v| self.send("#{k}=", v)}
-  end
-
-  def self.player_id_2_fullname(player_id)
-    list.select{|player| player.player_id == player_id}.first.fullname
   end
 
   def fullname
     self.name_first + ' ' + self.name_last
   end
 
-  def self.import_csv( file = './files/Master-small.csv' )
-    players = File.readlines(file)[0].gsub("\n", '').split("\r")
-    Player.list = []
-    players.drop(1).each do |row|
-      data = row.split(',')
-      Player.list << Player.new(player_id: data[0], birth_year: data[1], name_first: data[2], name_last: data[3])
+  class << self
+    attr_accessor :list
+
+    def player_id_2_fullname(player_id)
+      list.select{|player| player.player_id == player_id}.first.fullname
+    end
+
+    def self.import_csv( file = './files/Master-small.csv' )
+      players = File.readlines(file)[0].gsub("\n", '').split("\r")
+      Player.list = []
+      players.drop(1).each do |row|
+        data = row.split(',')
+        Player.list << Player.new(player_id: data[0], birth_year: data[1], name_first: data[2], name_last: data[3])
+      end
     end
   end
 
