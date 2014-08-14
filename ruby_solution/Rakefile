@@ -1,6 +1,6 @@
 desc 'run test'
 task :test do
-  sh "rspec baseball_spec.rb"
+  sh "bundle exec rspec baseball_spec.rb"
 end
 
 desc 'triple winner'
