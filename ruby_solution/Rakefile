@@ -1,0 +1,31 @@
+desc 'run test'
+task :test do
+  sh "rspec baseball_spec.rb"
+end
+
+desc 'triple winner'
+task :triple do
+  load 'baseball.rb'
+  bb = Baseball.new
+  %w(2011 2012).each do |year|
+    %w(NL AL).each do |league|
+      puts "year:#{year} league: #{league} -- #{bb.triple_crown_winner year, league}"
+    end
+  end
+end
+
+desc 'slugging'
+task :slugging do
+  load 'baseball.rb'
+  bb = Baseball.new
+  bb.get_slugging.each do |k, v|
+    puts "#{k}: #{v}"
+  end
+end
+
+desc 'most_improved'
+task :most_improved do
+  load 'baseball.rb'
+  bb = Baseball.new
+  puts bb.most_improved
+end

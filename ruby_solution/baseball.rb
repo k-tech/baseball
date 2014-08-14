@@ -1,3 +1,4 @@
+require 'byebug'
 class Baseball
   def initialize
     Player.import_csv
@@ -11,8 +12,9 @@ class Baseball
 
 
   def get_slugging
-    rs = Batting.get_available_for_slugging.select{|batting| batting.team_id == 'OAK' and batting.year_id == '2007'}
-    rs.map{|b| slugging = ((b.hits.to_f - b.doubles.to_f - b.triples.to_f - b.home_runs.to_f) + (2 * b.doubles.to_f) + (3 * b.triples.to_f) + (4 * b.home_runs.to_f)) / b.at_bats.to_f if b.at_bats != 0; slugging}.compact
+    rs = {}
+    Batting.get_slugging.each{|k, v| rs.merge!({Player.player_id_2_fullname(k) => v})}
+    rs
   end
 
 
@@ -46,7 +48,6 @@ class Player
     players.drop(1).each do |row|
       data = row.split(',')
       Player.list << Player.new(player_id: data[0], birth_year: data[1], name_first: data[2], name_last: data[3])
-      print '.'
     end
   end
 
@@ -83,7 +84,6 @@ class Batting
           stolen_bases: data[12].to_i,
           caught_stealing: data[13].to_i
         })
-      print '.'
     end
   end
 
@@ -127,4 +127,10 @@ class Batting
     rs.nil?? '' : rs.first
   end
 
+  def self.get_slugging
+    output = {}
+    rs = get_available_for_slugging.select{|batting| batting.team_id == 'OAK' and batting.year_id == '2007'}
+    rs.each{|b| slugging = ((b.hits.to_f - b.doubles.to_f - b.triples.to_f - b.home_runs.to_f) + (2 * b.doubles.to_f) + (3 * b.triples.to_f) + (4 * b.home_runs.to_f)) / b.at_bats.to_f if b.at_bats != 0; output.merge!({b.player_id => slugging})}
+    output.delete_if{|k, v| v.nil?}
+  end
 end

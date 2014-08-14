@@ -43,7 +43,8 @@ RSpec.describe Baseball do
 
   it 'slugging' do
     expect(Batting).to receive(:list) { [batting3] }
-    expect(Baseball.new.get_slugging.first).to be_within(0.5).of(3.3)
+    expect(Player).to receive(:player_id_2_fullname).with('player_id') { 'Joe Brown'}
+    expect(Baseball.new.get_slugging.values.first).to be_within(0.5).of(3.3)
   end
 
   let(:batting4){ Batting.new(player_id: 'player_id1', year_id: '2007', league: 'NL', at_bats: 300, hits: 199, doubles: 130, triples: 36, home_runs: 200, runs_batted_in: 10)}
