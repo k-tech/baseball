@@ -6,9 +6,14 @@ class Batting < ActiveRecord::Base
 
   before_create :generate_bat_ave
 
-  scope :batting_ave_condition, ->(at_bats) { where("at_bats >= 200").where("hits <> 0") }
+  scope :gt_bats, ->(bats) { where("at_bats >= ?", bats) }
+  scope :batting_ave_condition, ->(at_bats) { gt_bats(at_bats).where("hits <> 0") }
   scope :in_years, ->(*years) { where(year_id: years) }
   scope :in_team, ->(team) { where(team_id: team) }
+  scope :year_league_best, ->(year, league, spec) { where(year_id: year, league: league).gt_bats(400).maximum(spec) }
+  scope :year_league_winners, ->(year, league, spec) {
+    where(year_id: year, league: league).gt_bats(400).where(spec => year_league_best(year, league, spec))
+  }
 
   delegate :full_name, to: :player, prefix: true
 
