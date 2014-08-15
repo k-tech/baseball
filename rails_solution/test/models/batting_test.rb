@@ -5,29 +5,35 @@ require 'services/triple_crown_winner_service'
 
 describe Batting do
   test "most improved" do
-    assert_equal [players(:one).full_name, players(:two).full_name], ImprovedService.most_improved
+    expected = [
+      [players(:one).full_name, battings(:batting_2).bat_ave-battings(:batting_1).bat_ave], 
+      [players(:two).full_name, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
+    ]
+    assert_equal expected, ImprovedService.most_improved
   end
 
   test "most improved with from_year and to_year" do
-    battings(:batting_2).update year_id: 2011
     battings(:batting_4).update year_id: 2011
-    assert_equal [players(:one).full_name, players(:two).full_name], ImprovedService.most_improved(2009, 2011)
+    expected = [
+      [players(:one).full_name, battings(:batting_6).bat_ave-battings(:batting_1).bat_ave], 
+      [players(:two).full_name, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
+    ]
+    assert_equal expected, ImprovedService.most_improved(2009, 2011)
   end
 
   test "most improved2" do
     expected = [
-      [players(:two).player_id, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
-      [players(:one).player_id, battings(:batting_2).bat_ave-battings(:batting_1).bat_ave], 
+      [players(:one).full_name, battings(:batting_2).bat_ave-battings(:batting_1).bat_ave], 
+      [players(:two).full_name, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
     ]
     assert_equal expected, ImprovedService.most_improved2
   end
 
   test "most improved2 with from_year and to_year" do
-    battings(:batting_1).update year_id: 2007
     battings(:batting_3).update year_id: 2007
     expected = [
-      [players(:two).player_id, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
-      [players(:one).player_id, battings(:batting_2).bat_ave-battings(:batting_1).bat_ave], 
+      [players(:two).full_name, battings(:batting_4).bat_ave-battings(:batting_3).bat_ave], 
+      [players(:one).full_name, battings(:batting_2).bat_ave-battings(:batting_5).bat_ave], 
     ]
     assert_equal expected, ImprovedService.most_improved2(2007, 2010)
   end

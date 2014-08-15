@@ -81,6 +81,7 @@ batting_5:
   runs_batted_in: 5
   stolen_bases: 5
   caught_stealing: 2
+  bat_ave: 0.39
 
 batting_6:
   player_id: player1 

@@ -2,6 +2,7 @@ class Player < ActiveRecord::Base
   has_many :battings, primary_key: :player_id, foreign_key: :player_id
 
   validates :player_id, :name_first, :name_last, presence: true
+  validates_uniqueness_of :player_id
 
   def self.get_most_improved
     rs = self.where('most_improved IS NOT NULL').order('most_improved desc').limit(200)
