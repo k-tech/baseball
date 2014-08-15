@@ -17,9 +17,7 @@ class Baseball
   end
 
   def get_slugging
-    rs = {}
-    Batting.get_slugging.each{|k, v| rs.merge!({Player.player_id_2_fullname(k) => v})}
-    rs
+    Batting.get_slugging.inject({}){|rs, item| rs.merge!({Player.player_id_2_fullname(item[0]) => item[1]})}
   end
 
   def triple_crown_winner(year='2012', league='NL')
